@@ -7,7 +7,7 @@ import sys
 class ClienteApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Cliente - Inicializador de Processamento")
+        self.root.title("Cliente")
         self.root.geometry("500x250")
 
         tk.Label(root, text="Arquivo de Entrada:").pack(pady=5)
