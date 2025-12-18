@@ -30,7 +30,7 @@ def iniciar_leitor(arquivo, modo, palavras_chave):
                         'numero_linha': index + 1
                     }
                     
-                    # Publica na Fila (Produtor)
+                    # Publica na Fila
                     channel.basic_publish(
                         exchange='',
                         routing_key='fila_linhas',
@@ -38,7 +38,7 @@ def iniciar_leitor(arquivo, modo, palavras_chave):
                         properties=pika.BasicProperties(
                             delivery_mode=2,  # Torna a mensagem persistente
                         ))
-                    # Pequeno sleep para não entupir a fila instantaneamente e podermos ver o fluxo
+                    # sleep para ver o fluxo
                     time.sleep(0.01) 
 
         print(f"[x] Leitura {modo} finalizada.")

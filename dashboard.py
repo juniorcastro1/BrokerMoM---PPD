@@ -10,7 +10,7 @@ class DashboardApp:
         self.root.title("Dashboard MoM - Contagem de Palavras")
         self.root.geometry("400x300")
         
-        self.contadores = {} # Dicionario para guardar totais { "palavra": int }
+        self.contadores = {} # Dicionario para guardar totais
         self.labels = {}     # Dicionario para guardar widgets da UI
         
         self.label_titulo = tk.Label(root, text="Monitoramento", font=("Arial", 14, "bold"))
@@ -50,14 +50,14 @@ class DashboardApp:
         connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
         channel = connection.channel()
 
-        # Declara o exchange (Tópico)
+        # Declara o exchange
         channel.exchange_declare(exchange='topico_palavras', exchange_type='fanout')
 
         # Cria uma fila temporária exclusiva para este dashboard
         result = channel.queue_declare(queue='', exclusive=True)
         queue_name = result.method.queue
 
-        # Liga a fila ao Tópico (Bind)
+        # Liga a fila ao Tópico
         channel.queue_bind(exchange='topico_palavras', queue=queue_name)
 
         print("[*] Dashboard esperando dados...")

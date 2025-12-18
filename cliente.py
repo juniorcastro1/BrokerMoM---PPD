@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 import subprocess
 import os
+import sys
 
 class ClienteApp:
     def __init__(self, root):
@@ -31,7 +32,6 @@ class ClienteApp:
         arquivo = self.entry_arquivo.get()
         keywords = self.entry_keywords.get()
 
-        # Validações básicas
         if not arquivo or not os.path.exists(arquivo):
             messagebox.showerror("Erro", "Arquivo inválido.")
             return
@@ -39,17 +39,13 @@ class ClienteApp:
             messagebox.showerror("Erro", "Digite as palavras-chave.")
             return
 
-        # --- PARTE 1: Configuração (Fica FORA do try) ---
-        # Define qual comando usar dependendo de como o programa está rodando
-        import sys
         if getattr(sys, 'frozen', False):
-            # Se estiver congelado (EXE), chama o leitor.exe
+            # Se estiver congelado, chama o leitor.exe
             cmd_base = ["leitor.exe"] 
         else:
             # Se estiver em script, chama python leitor.py
             cmd_base = ["python", "leitor.py"]
 
-        # --- PARTE 2: Execução (Fica DENTRO do try) ---
         try:
             print("Iniciando Leitor Par...")
             # Aqui usamos o cmd_base que definimos lá em cima
@@ -61,7 +57,6 @@ class ClienteApp:
             messagebox.showinfo("Sucesso", "Leitores instanciados!")
             
         except Exception as e:
-            # Se o leitor.exe não existir ou der erro de permissão, cai aqui
             messagebox.showerror("Erro CRÍTICO", f"Falha ao iniciar leitores:\n{e}\n\nVerifique se o arquivo leitor.exe está na mesma pasta.")
 
 if __name__ == "__main__":

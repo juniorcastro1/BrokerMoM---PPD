@@ -10,7 +10,6 @@ def processar_linha(ch, method, properties, body):
     resultados = {}
     total_encontrado = 0
     
-    # Contagem simples (case insensitive)
     for palavra in palavras_chave:
         count = linha.lower().count(palavra.lower())
         if count > 0:
