@@ -26,10 +26,12 @@ class ClienteApp:
             self.entry_arquivo.delete(0, tk.END)
             self.entry_arquivo.insert(0, filename)
 
+    
     def iniciar_processamento(self):
         arquivo = self.entry_arquivo.get()
         keywords = self.entry_keywords.get()
 
+        # Validações básicas
         if not arquivo or not os.path.exists(arquivo):
             messagebox.showerror("Erro", "Arquivo inválido.")
             return
@@ -37,18 +39,30 @@ class ClienteApp:
             messagebox.showerror("Erro", "Digite as palavras-chave.")
             return
 
-        # Instancia as duas execuções dos Leitores (Nó 2 do diagrama)
-        # Passamos os argumentos via linha de comando
+        # --- PARTE 1: Configuração (Fica FORA do try) ---
+        # Define qual comando usar dependendo de como o programa está rodando
+        import sys
+        if getattr(sys, 'frozen', False):
+            # Se estiver congelado (EXE), chama o leitor.exe
+            cmd_base = ["leitor.exe"] 
+        else:
+            # Se estiver em script, chama python leitor.py
+            cmd_base = ["python", "leitor.py"]
+
+        # --- PARTE 2: Execução (Fica DENTRO do try) ---
         try:
             print("Iniciando Leitor Par...")
-            subprocess.Popen(["python", "leitor.py", arquivo, "par", keywords])
+            # Aqui usamos o cmd_base que definimos lá em cima
+            subprocess.Popen(cmd_base + [arquivo, "par", keywords])
             
             print("Iniciando Leitor Ímpar...")
-            subprocess.Popen(["python", "leitor.py", arquivo, "impar", keywords])
+            subprocess.Popen(cmd_base + [arquivo, "impar", keywords])
             
-            messagebox.showinfo("Sucesso", "Leitores instanciados! Verifique o Dashboard.")
+            messagebox.showinfo("Sucesso", "Leitores instanciados!")
+            
         except Exception as e:
-            messagebox.showerror("Erro", f"Falha ao iniciar leitores: {e}")
+            # Se o leitor.exe não existir ou der erro de permissão, cai aqui
+            messagebox.showerror("Erro CRÍTICO", f"Falha ao iniciar leitores:\n{e}\n\nVerifique se o arquivo leitor.exe está na mesma pasta.")
 
 if __name__ == "__main__":
     root = tk.Tk()
