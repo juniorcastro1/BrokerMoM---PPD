@@ -4,7 +4,7 @@ import json
 import time
 
 def iniciar_leitor(arquivo, modo, palavras_chave):
-    # Conexão com o MOM (RabbitMQ)
+    # Conexão o Rabbit
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
 
