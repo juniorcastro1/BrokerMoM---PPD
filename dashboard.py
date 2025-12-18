@@ -7,13 +7,13 @@ from tkinter import ttk
 class DashboardApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Dashboard MOM - Contagem de Palavras")
+        self.root.title("Dashboard MoM - Contagem de Palavras")
         self.root.geometry("400x300")
         
         self.contadores = {} # Dicionario para guardar totais { "palavra": int }
         self.labels = {}     # Dicionario para guardar widgets da UI
         
-        self.label_titulo = tk.Label(root, text="Monitoramento em Tempo Real", font=("Arial", 14, "bold"))
+        self.label_titulo = tk.Label(root, text="Monitoramento", font=("Arial", 14, "bold"))
         self.label_titulo.pack(pady=10)
         
         self.frame_stats = tk.Frame(root)
