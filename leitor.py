@@ -8,7 +8,7 @@ def iniciar_leitor(arquivo, modo, palavras_chave):
     connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
     channel = connection.channel()
 
-    # Declara a fila de tarefas (Garante que ela existe)
+    # Declara a fila de tarefas 
     channel.queue_declare(queue='fila_linhas', durable=True)
 
     print(f"[*] Leitor de linhas {modo} iniciado. Lendo {arquivo}...")
@@ -18,9 +18,6 @@ def iniciar_leitor(arquivo, modo, palavras_chave):
             for index, linha in enumerate(f):
                 processar = False
                 
-                # Lógica Par/Ímpar (Linhas começam em 0 no python)
-                # Se modo é 'par', processa índices 0, 2, 4... (que são linhas 1, 3, 5 visuais)
-                # Vamos simplificar: indice par = linha par
                 if modo == 'par' and index % 2 == 0:
                     processar = True
                 elif modo == 'impar' and index % 2 != 0:
@@ -52,7 +49,7 @@ def iniciar_leitor(arquivo, modo, palavras_chave):
         connection.close()
 
 if __name__ == "__main__":
-    # Argumentos via linha de comando: arquivo, modo, palavras...
+    # Argumentos via linha de comando
     if len(sys.argv) < 4:
         print("Uso: python leitor.py <arquivo> <modo> <palavra1,palavra2...>")
     else:
